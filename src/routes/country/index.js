@@ -45,7 +45,7 @@ const Country = ({ code }) => {
       <section class="section">
         <nav class="level px-3">
           <div class="level-left">
-            <div class="level-item">
+            <div class={`level-item ${style['country-level']}`}>
               <Link class="button" href="/">
                 <span class="icon">
                   <i class="fas fa-arrow-left"></i>
@@ -127,7 +127,7 @@ const Country = ({ code }) => {
                 </div>
                 {borderCountries.length ? (
                   <div class={`level ${style["country-level"]}`}>
-                    <span class="level-item is-narrow mr-2 has-text-weight-bold">
+                    <span class={`level-item ${style['country-level']} is-narrow mr-2 has-text-weight-bold`}>
                       Border Countries:{" "}
                     </span>
                     {borderCountries.map((borderCountry) => (

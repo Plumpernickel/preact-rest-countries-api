@@ -5,10 +5,10 @@ import PreactIcon from "../../assets/icons/android-chrome-192x192.png";
 
 const Header = () => (
   <header>
-    <nav class="navbar" role="navigation" aria-label="main navigation">
+    <nav class="navbar is-spaced" role="navigation" aria-label="main navigation">
       <div class="navbar-brand">
         <Link class="navbar-item" href="/">
-          <img src={PreactIcon} alt="Home Link Icon" />
+          <img loading="lazy" src={PreactIcon} alt="Home Link Icon" />
         </Link>
         <div class="navbar-item has-text-weight-bold is-size-5">
           Where in the world?
