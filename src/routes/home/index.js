@@ -18,7 +18,7 @@ const Home = () => {
       name: `https://restcountries.eu/rest/v2/name/${paramValue}`,
       region: `https://restcountries.eu/rest/v2/region/${paramValue}`
     };
-    
+
     return fetch(requestTypeUrlMap[specificity])
       .then((res) => res.json())
       .then((jsonRes) => jsonRes)
@@ -53,6 +53,8 @@ const Home = () => {
       setCountries(jsonCountries);
       setLoading(false);
     }
+
+    setSelectedRegion('');
   }, [debouncedSearchTerm]);
 
   const renderCountryBox = ({ alpha3Code, capital, flag, name, population, region }) => (
@@ -64,7 +66,7 @@ const Home = () => {
               <img loading="lazy" class={style.flag} src={flag} alt={`Flag of ${name}`} />
             </figure>
             <div class="px-4 py-4">
-              <p class="title mb-2">{name}</p>
+              <p class="title mb-2 is-size-4 has-text-weight-bold">{name}</p>
               <p>
                 <span class="has-text-weight-bold">Population:</span>{" "}
                 {new Intl.NumberFormat().format(population)}
