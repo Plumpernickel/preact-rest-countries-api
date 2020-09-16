@@ -1,0 +1,21 @@
+.country-box {
+  transition: transform 0.2s ease-in-out;
+
+  &:hover {
+    transform: scale(1.05);
+  }
+}
+
+.home {
+	min-height: 100%;
+	width: 100%;
+}
+
+.flag {
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+}
+
+.p-0 {
+  padding: 0 !important;
+}
