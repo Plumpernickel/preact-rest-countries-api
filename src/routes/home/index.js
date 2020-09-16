@@ -1,24 +1,59 @@
 import { h } from "preact";
 import { Link } from "preact-router/match";
-import { useEffect, useState } from "preact/hooks";
+import { useCallback, useEffect, useState } from "preact/hooks";
+import useDebounce from '../../hooks/use-debounce';
 import style from "./style.scss";
 
 const Home = () => {
   const regions = ["Africa", "Americas", "Asia", "Europe", "Oceania"];
-  const [searchValue, setSearchValue] = useState("");
   const [countries, setCountries] = useState([]);
+  const [searchValue, setSearchValue] = useState('');
+  const [selectedRegion, setSelectedRegion] = useState('');
+  const [loading, setLoading] = useState(false);
+  const debouncedSearchTerm = useDebounce(searchValue, 500);
+
+  const fetchCountries = useCallback((specificity = 'all', paramValue = '') => {
+    const requestTypeUrlMap = {
+      all: 'https://restcountries.eu/rest/v2/all',
+      name: `https://restcountries.eu/rest/v2/name/${paramValue}`,
+      region: `https://restcountries.eu/rest/v2/region/${paramValue}`
+    };
+    
+    return fetch(requestTypeUrlMap[specificity])
+      .then((res) => res.json())
+      .then((jsonRes) => jsonRes)
+      .catch((error) => console.error(error));
+  }, []);
 
   useEffect(async () => {
-    function fetchCountries() {
-      return fetch("https://restcountries.eu/rest/v2/all")
-        .then((res) => res.json())
-        .then((jsonRes) => jsonRes)
-        .catch((error) => console.error(error));
-    }
-
+    setLoading(true);
     const jsonCountries = await fetchCountries();
     setCountries(jsonCountries);
+    setLoading(false);
   }, []);
+
+  useEffect(async () => {
+    if (selectedRegion) {
+      setLoading(true);
+      const jsonCountries = await fetchCountries('region', selectedRegion);
+      setCountries(jsonCountries);
+      setLoading(false);
+    }
+  }, [selectedRegion]);
+
+  useEffect(async () => {
+    if (debouncedSearchTerm) {
+      setLoading(true);
+      const jsonCountries = await fetchCountries('name', searchValue);
+      setCountries(jsonCountries);
+      setLoading(false);
+    } else {
+      setLoading(true);
+      const jsonCountries = await fetchCountries();
+      setCountries(jsonCountries);
+      setLoading(false);
+    }
+  }, [debouncedSearchTerm]);
 
   const renderCountryBox = ({ alpha3Code, capital, flag, name, population, region }) => (
     <div class="column is-one-quarter">
@@ -69,24 +104,28 @@ const Home = () => {
 
           <div class="level-right">
             <div class="select">
-              <select>
-                <option disabled selected>
+              <select value={selectedRegion} onChange={({ target: { value } }) => setSelectedRegion(value)}>
+                <option disabled selected value="">
                   Filter by Region
                 </option>
                 {regions.map((region) => (
-                  <option key={region}>{region}</option>
+                  <option key={region} value={region}>{region}</option>
                 ))}
               </select>
             </div>
           </div>
         </nav>
 
-        {countries && countries.length ? (
+        {loading ? (
+          <div class="has-text-centered">
+            <span class="icon is-large is-left">
+              <i class="fas fa-circle-notch fa-3x fa-spin"></i>
+            </span>
+          </div>
+        ) : (
           <div class="columns is-multiline">
             {countries.map((country) => renderCountryBox(country))}
           </div>
-        ) : (
-          <progress class="progress is-medium is-dark" max="100"></progress>
         )}
       </section>
     </div>
