@@ -26,13 +26,6 @@ const Home = () => {
   }, []);
 
   useEffect(async () => {
-    setLoading(true);
-    const jsonCountries = await fetchCountries();
-    setCountries(jsonCountries);
-    setLoading(false);
-  }, []);
-
-  useEffect(async () => {
     if (selectedRegion) {
       setLoading(true);
       const jsonCountries = await fetchCountries('region', selectedRegion);
@@ -97,7 +90,7 @@ const Home = () => {
                     placeholder="Search for a country..."
                   />
                   <span class="icon is-small is-left">
-                    <i class="fas fa-search"></i>
+                    <ion-icon name="search-outline"></ion-icon>
                   </span>
                 </p>
               </div>
