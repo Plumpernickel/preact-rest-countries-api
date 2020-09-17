@@ -120,8 +120,8 @@ const Home = () => {
 
         {loading ? (
           <div class="has-text-centered">
-            <span class="icon is-large is-left">
-              <i class="fas fa-circle-notch fa-3x fa-spin"></i>
+            <span class={`icon is-large ${style.spin}`}>
+              <ion-icon name="logo-ionic" style={{ fontSize: '64px' }}></ion-icon>
             </span>
           </div>
         ) : (

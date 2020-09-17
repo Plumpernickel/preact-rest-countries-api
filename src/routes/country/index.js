@@ -48,7 +48,7 @@ const Country = ({ code }) => {
             <div class={`level-item ${style['country-level']}`}>
               <Link class="button" href="/">
                 <span class="icon">
-                  <i class="fas fa-arrow-left"></i>
+                  <ion-icon name="arrow-back-outline"></ion-icon>
                 </span>
                 <span>Back</span>
               </Link>
@@ -57,8 +57,8 @@ const Country = ({ code }) => {
         </nav>
         {loading ? (
           <div class="has-text-centered">
-            <span class="icon is-large is-left">
-              <i class="fas fa-circle-notch fa-3x fa-spin"></i>
+            <span class={`icon is-large ${style.spin}`}>
+              <ion-icon name="logo-ionic" style={{ fontSize: '64px' }}></ion-icon>
             </span>
           </div>
         ) : (
