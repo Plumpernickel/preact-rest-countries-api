@@ -16,6 +16,12 @@ const Country = ({ code }) => {
       .catch((error) => console.error(error));
   }, []);
 
+  const updateCountryPage = borderCountry => {
+    setCountry(borderCountry);
+    const { state } = history;
+    history.pushState({ page: state?.page ? state.page + 1 : 1 }, borderCountry.name, `/countries/${borderCountry.alpha3Code}`)
+  };
+
   useEffect(async () => {
     setLoading(true);
     const initializedCountry = await fetchCountry(code);
@@ -133,7 +139,7 @@ const Country = ({ code }) => {
                     {borderCountries.map((borderCountry) => (
                       <button
                         class="level-item is-narrow button mx-1 my-1"
-                        onClick={() => setCountry(borderCountry)}
+                        onClick={() => updateCountryPage(borderCountry)}
                       >
                         {borderCountry.name}
                       </button>
